@@ -1,9 +1,12 @@
 *, html, body {
   margin: 0;
-  padding: 0;
 }
 
 .app {
  background-color: #FAFAFA;
 }
 
+.appSignup{
+  display: flex;
+  flex-direction: column;
+}
