@@ -25,10 +25,11 @@ function Post({ avatarImg, postImg, username, caption}) {
 export default Post;
 
 const POST = styled.div`
-max-width: 500px;
+max-width: 600px;
 border: 1px solid lightgray;
 background-color: white;
-margin-bottom: 45px;
+margin-bottom: 60px;
+margin-left: 19%;
 .postImg {
     width: 100%; 
     object-fit: contain;
@@ -43,7 +44,7 @@ margin-bottom: 45px;
 const PostHeader = styled.div`
 display: flex;
 align-items: center;
-padding: 20px;
+padding: 10px;
 .post_avatar {
     margin-right: 10px;
 }`

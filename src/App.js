@@ -60,7 +60,7 @@ function App() {
   },[user, username]);
 
   useEffect(() => {
-    db.collection('posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
+    db.collection('posts').orderBy('username', 'desc').onSnapshot(snapshot => {
       setPosts(snapshot.docs.map(doc => ({
         id: doc.id,
         post: doc.data()
@@ -127,12 +127,6 @@ function App() {
 
   return (
     <div className="app">
-
-      {user?.displayName ? (
-        <ImageUpload username={user.displayName}/>
-      ) : (
-        <h3>Sorry you need to login to upload</h3>
-        )}
 
       <Modal
             open={open}
@@ -204,14 +198,7 @@ function App() {
           </div>
       </Modal>
 
-      {user ? (
-        <Button onClick={() => auth.signOut()}>Logout</Button>
-      ) : ( 
-        <div className="app_loginContainer">
-        <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
-        <Button onClick={() => setOpen(true)}>Sign Up</Button>
-        </div>
-        )}
+      
         
 
       <Header>
@@ -219,6 +206,14 @@ function App() {
              src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
              alt="IG logo"
         />
+         {user ? (
+        <Button onClick={() => auth.signOut()}>Logout</Button>
+        ) : ( 
+        <div className="app_loginContainer">
+        <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
+        <Button onClick={() => setOpen(true)}>Sign Up</Button>
+        </div>
+        )}
       </Header>
 
       {posts.map(({ id, post}) => (
@@ -229,6 +224,13 @@ function App() {
               caption={post.caption}
               />
       ))}
+
+            {user?.displayName ? (
+                            <ImageUpload username={user.displayName}/>
+                          ) : (
+                            // <h3>Sorry you need to login to upload</h3>
+                            null
+                            )}
       
     </div>
   );
@@ -237,12 +239,15 @@ function App() {
 export default App;
 
 const Header = styled.div`
-max-width: 100%;
+display: flex;
+justify-content: space-between;
+/* max-width: 100%; */
 background-color: white;
 padding: 20px;
 border-bottom: 1px solid lightgray;
 .headerImg{
   object-fit: contain;
+  margin-left: 18%;
 }`
 
 

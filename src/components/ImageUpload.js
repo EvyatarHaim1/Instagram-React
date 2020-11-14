@@ -56,8 +56,9 @@ function ImageUpload({ username }) {
     }
 
     return (
-        <div>
-            <progress value={progress} max="100" />
+        <Div>
+            <progress className="imgProgressUpload"
+                   value={progress} max="100" />
             <Input type="text" 
                    placeholder="Enter a caption..." 
                    onChange={event => setCaption(event.target.value)}
@@ -68,8 +69,26 @@ function ImageUpload({ username }) {
                     onClick={handleUpload}>
                         Upload
                     </Button>
-        </div>
+        </Div>
     )
 }
 
 export default ImageUpload;
+
+const Div = styled.div`
+display: flex;
+flex-direction: column;
+width: 60%;
+margin-left: auto;
+margin-right: auto;
+margin-top: 10px;
+margin-bottom: 10px;
+position: fixed;
+bottom: 0;
+z-index: 1;
+background-color: white;
+border-top: 1px solid lightgray;
+.imgProgressUpload{
+    width: 100%;
+}
+`
