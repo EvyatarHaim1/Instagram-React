@@ -5,4 +5,4 @@ Instagram-React App:
 * Functional Components
 * Styled-Component
 * Material-UI - Components & Icons
-* Firebase - Database, Authentication & Hosting the app.
+* Firebase - Database, User-Authentication & Hosting the app.
