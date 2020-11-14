@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import Post from './components/Post';
 import { makeStyles } from '@material-ui/core/styles';
 import {Modal, Button, Input} from '@material-ui/core';
-import { db, auth} from './firebase';
+import { db, auth, storage} from './firebase';
+import firebase from 'firebase';
 import './App.css';
+import ImageUpload from './components/ImageUpload';
 
 function getModalStyle() {
   const top = 50;
@@ -32,12 +34,14 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
+
   const [posts, setPosts] = useState([]);
   const [open, setOpen] = useState(false);
   const [openSignIn, setOpenSignIn] = useState(false);
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const [avatarImg, setAvatarImg] = useState('');
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -56,7 +60,7 @@ function App() {
   },[user, username]);
 
   useEffect(() => {
-    db.collection('posts').onSnapshot(snapshot => {
+    db.collection('posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
       setPosts(snapshot.docs.map(doc => ({
         id: doc.id,
         post: doc.data()
@@ -85,8 +89,51 @@ function App() {
     setOpenSignIn(false);
   }
 
+  const handleAvatarImgChange = (e) => {
+    if(e.target.files[0]){
+      setAvatarImg(e.target.files[0]);
+    }
+  }
+
+  const handleUpload = (event) => {
+    event.preventDefault();
+    const uploadAvatarImg = storage.ref(`/images/usersAvatars/${avatarImg.name}`).put(avatarImg);
+    uploadAvatarImg.on(
+        "state_changed",
+         (error) => {
+             // Error function...
+             console.log(error);
+             alert(error.message);
+         },
+         () => {
+             // Complete function...
+             storage
+                .ref("UsersAvatars")
+                .child(avatarImg.name)
+                .getDownloadURL()
+                .then(url => {
+                    // post image inside db
+                    db.collection("posts").add({
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                        postImg: url,
+                        avatarImg: avatarImg,
+                        username: username,
+                    });
+                })
+         }
+         )
+         signUp()
+  }
+
   return (
     <div className="app">
+
+      {user?.displayName ? (
+        <ImageUpload username={user.displayName}/>
+      ) : (
+        <h3>Sorry you need to login to upload</h3>
+        )}
+
       <Modal
             open={open}
             onClose={() => setOpen(false)}
@@ -118,7 +165,8 @@ function App() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                   />
-                 <Button type="submit"
+                  <Input type="file" onChange={handleAvatarImgChange} />
+                  <Button type="submit"
                          onClick={signUp}>Sign Up</Button>
               </form>
           </div>
@@ -150,7 +198,8 @@ function App() {
                       onChange={(e) => setPassword(e.target.value)}
                   />
                  <Button type="submit"
-                         onClick={signIn}>Sign In</Button>
+                         onClick={signIn}
+                         >Sign In</Button>
               </form>
           </div>
       </Modal>
