@@ -77,6 +77,9 @@ function AppRightSection({avatarImg, username, email}) {
 export default AppRightSection;
 
 const Div = styled.div`
+position: sticky;
+top: 80px;
+z-index:1 ;
 .userAvatarImg {
 object-fit: contain;
 width: 58px;
@@ -93,7 +96,7 @@ align-items: center;
     margin-left: 20px;
 }
 .switch{ 
-    margin-left: 115px; 
+    margin-left: 130px; 
     color: #0095f6; 
     opacity: 1;
     }`

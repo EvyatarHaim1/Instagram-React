@@ -8,6 +8,7 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import styled from 'styled-components';
 import { fade, makeStyles } from '@material-ui/core/styles';
+import { red } from '@material-ui/core/colors';
 
 function HeaderIcons({ currentUserImg}) {
     const classes = useStyles();
@@ -19,11 +20,11 @@ function HeaderIcons({ currentUserImg}) {
              placeholder= "Search…"/> */}
              <div className={classes.search}>
             <div className={classes.searchIcon}>
-              <SearchIcon />
+              <SearchIcon className="search"/>
             </div>
-            <InputBase 
+            <InputBase className="input"
               inputProps={{ 'aria-label': 'search' }}
-              placeholder="Search…"
+              placeholder="Search"
             />
           </div>
             <HomeIcon />
@@ -43,20 +44,28 @@ export default HeaderIcons;
 
 const Div = styled.div`
 display: flex;
-.MuiSvgIcon-root{ color: black; margin-left:20px; align-self: center; }
+.MuiSvgIcon-root{ color: black;  align-self: center; margin-left: 20px;
+  &.search {margin: auto;} }
+.MuiInputBase-root , .input{ width: 20px; left: 50px;}
+.MuiInputBase-input {width: 50px;}
+.search{ color: gray; text-align: center !important; font-size:16px; }
+.input{width: 170px; font-size:14px; }
 `
 
 
 const useStyles = makeStyles((theme) => ({
   search: {
+    position: "absolute",
+    borderRadius: "4px",
     display: 'flex',
+    textAlign: "center",
+    justifyContent: "center",
     position: 'relative',
     height: "25px",
     textAlign: 'center',
     border: "1px solid lightgray",
     backgroundColor: "#fafafa",
     marginRight: "200px",
-    width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(25),
       width: 'auto',
@@ -64,10 +73,10 @@ const useStyles = makeStyles((theme) => ({
   },
   searchIcon: {
     paddingLeft: "5px",
-    // height: '100%',
     position: 'relative',
     pointerEvents: 'none',
     display: 'flex',
+    justifyContent: "center",
   },
   avatar: {
     display: 'flex',

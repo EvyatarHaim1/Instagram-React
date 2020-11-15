@@ -77,7 +77,6 @@ function App() {
             .getDownloadURL()
             .then(avatarUrl => {
               setAvatarImg(avatarUrl)
-              console.log(avatarImg)
             })
     }
   },[user, avatarImg])
@@ -149,6 +148,9 @@ function App() {
                   />
                   <Input type="file" onChange={handleAvatarImgChange} />
                   <Button type="submit"
+                         variant="contained" 
+                         color="primary"
+                         disabled={!password || !email || !username || !avatarImg }
                          onClick={signUp}>Sign Up</Button>
               </form>
           </div>
@@ -180,6 +182,9 @@ function App() {
                       onChange={(e) => setPassword(e.target.value)}
                   />
                  <Button type="submit"
+                         variant="contained" 
+                         color="primary"
+                         disabled={ !email || !password }
                          onClick={signIn}
                          >Sign In</Button>
               </form>
@@ -210,6 +215,7 @@ function App() {
         <div className="app_postLeft">
       {posts.map(({ id, post}) => (
         <Post key={id}
+              postId={id}
               username={post.username}
               avatarImg={post.avatarImg || "EH"}
               postImg={post.postImg}
@@ -243,6 +249,9 @@ function App() {
 export default App;
 
 const Header = styled.div`
+position: sticky;
+top: 0;
+z-index: 1;
 display: flex;
 justify-content: space-between;
 background-color: white;
