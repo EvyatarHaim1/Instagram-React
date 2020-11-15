@@ -1,10 +1,16 @@
 Instagram-React App:
 
-* React.js - Frontend
-* React-Hooks
-* Functional Components
-* Styled-Component
-* Material-UI - Components & Icons
-* Firebase - Database, User-Authentication & Hosting the app.
-* react-instagram-embed - for the right section of the app.
+App-url : https://instagram-evyatar.web.app/
+React.js - Frontend
+React-Hooks
+Functional Components
+Styled-Component
+Material-UI - Components & Icons & Modal
+Firebase :
+   - DB , Storage ,User-Authentication & Hosting the app.
+Login\Logout functionality
+Signin\Signup functionality
+* Uploading posts and reating comments.
+
+
 
