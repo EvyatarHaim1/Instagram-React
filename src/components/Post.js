@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import Avatar from '@material-ui/core/Avatar';
 
 function Post({ avatarImg, postImg, username, caption}) {
+
     return (
         <POST>
             <PostHeader>
           <Avatar
             className="post_avatar"
-            alt="EvyatarHaim"
+            alt={username}
             src={avatarImg}
             />
             <h3>{username}</h3>
@@ -48,3 +49,8 @@ padding: 10px;
 .post_avatar {
     margin-right: 10px;
 }`
+
+
+
+
+

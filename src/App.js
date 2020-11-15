@@ -4,9 +4,9 @@ import Post from './components/Post';
 import { makeStyles } from '@material-ui/core/styles';
 import {Modal, Button, Input} from '@material-ui/core';
 import { db, auth, storage} from './firebase';
-import firebase from 'firebase';
 import './App.css';
 import ImageUpload from './components/ImageUpload';
+import HeaderIcons from './components/HeaderIcons';
 
 function getModalStyle() {
   const top = 50;
@@ -59,8 +59,9 @@ function App() {
     }
   },[user, username]);
 
+
   useEffect(() => {
-    db.collection('posts').orderBy('username', 'desc').onSnapshot(snapshot => {
+    db.collection('posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
       setPosts(snapshot.docs.map(doc => ({
         id: doc.id,
         post: doc.data()
@@ -68,11 +69,26 @@ function App() {
     })
   },[]);
 
+  useEffect(() => {
+    if(user){
+      storage.ref("users")
+            .child(`${user.uid}/avatarImg`)
+            .getDownloadURL()
+            .then(avatarUrl => {
+              setAvatarImg(avatarUrl)
+              console.log(avatarImg)
+            })
+    }
+  },[user, avatarImg])
+
+
   const signUp = (event) => {
     event.preventDefault();
 
     auth.createUserWithEmailAndPassword(email, password)
     .then((authUser) => {
+      storage.ref(`users/${authUser.user.uid}/avatarImg`).put(avatarImg);
+      console.log('the avatarImg uploaded succesfully')
       return authUser.user.updateProfile({
         displayName: username
       })
@@ -95,36 +111,7 @@ function App() {
     }
   }
 
-  const handleUpload = (event) => {
-    event.preventDefault();
-    const uploadAvatarImg = storage.ref(`/images/usersAvatars/${avatarImg.name}`).put(avatarImg);
-    uploadAvatarImg.on(
-        "state_changed",
-         (error) => {
-             // Error function...
-             console.log(error);
-             alert(error.message);
-         },
-         () => {
-             // Complete function...
-             storage
-                .ref("UsersAvatars")
-                .child(avatarImg.name)
-                .getDownloadURL()
-                .then(url => {
-                    // post image inside db
-                    db.collection("posts").add({
-                        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                        postImg: url,
-                        avatarImg: avatarImg,
-                        username: username,
-                    });
-                })
-         }
-         )
-         signUp()
-  }
-
+  
   return (
     <div className="app">
 
@@ -206,8 +193,10 @@ function App() {
              src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png"
              alt="IG logo"
         />
+        <HeaderIcons currentUserImg={user ? avatarImg : username}/>
          {user ? (
-        <Button onClick={() => auth.signOut()}>Logout</Button>
+        <Button className="app_logoutContainer"
+               onClick={() => auth.signOut()}>Logout</Button>
         ) : ( 
         <div className="app_loginContainer">
         <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
@@ -219,14 +208,16 @@ function App() {
       {posts.map(({ id, post}) => (
         <Post key={id}
               username={post.username}
-              avatarImg={post.avatarImg}
+              avatarImg={post.avatarImg || "EH"}
               postImg={post.postImg}
               caption={post.caption}
+              user={user}
               />
       ))}
 
             {user?.displayName ? (
-                            <ImageUpload username={user.displayName}/>
+                            <ImageUpload username={user.displayName}
+                                         avatarImg={avatarImg}/>
                           ) : (
                             // <h3>Sorry you need to login to upload</h3>
                             null
@@ -241,13 +232,15 @@ export default App;
 const Header = styled.div`
 display: flex;
 justify-content: space-between;
-/* max-width: 100%; */
 background-color: white;
 padding: 20px;
 border-bottom: 1px solid lightgray;
 .headerImg{
   object-fit: contain;
   margin-left: 18%;
+}
+.app_loginContainer , .app_logoutContainer{
+  margin-right: 5%;
 }`
 
 

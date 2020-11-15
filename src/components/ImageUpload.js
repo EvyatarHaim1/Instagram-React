@@ -1,14 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Button, Input} from '@material-ui/core';
 import { db, storage} from '../firebase';
 import styled from 'styled-components';
 import firebase from 'firebase';
 
-function ImageUpload({ username }) {
+function ImageUpload({ avatarImg, username }) {
    
     const [image, setImage] = useState(null);
     const [progress, setProgress] = useState(0);
     const [caption, setCaption] = useState('');
+    const [user, setUser] = useState('');
 
     const handleChange = (e) => {
       if(e.target.files[0]){
@@ -39,12 +40,14 @@ function ImageUpload({ username }) {
                   .child(image.name)
                   .getDownloadURL()
                   .then(url => {
+                      
                       // post image inside db
                       db.collection("posts").add({
                           timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                           caption: caption,
                           postImg: url,
                           username: username,
+                          avatarImg: avatarImg
                       });
 
                       setProgress(0);
@@ -65,7 +68,9 @@ function ImageUpload({ username }) {
                    value={caption}
             />
             <Input type="file" onChange={handleChange} />
-            <Button className="imageUploadBtn" 
+            <Button disabled={!caption || !image}
+                    color='default'
+                    className="imageUploadBtn" 
                     onClick={handleUpload}>
                         Upload
                     </Button>
@@ -78,9 +83,9 @@ export default ImageUpload;
 const Div = styled.div`
 display: flex;
 flex-direction: column;
-width: 60%;
-margin-left: auto;
-margin-right: auto;
+width: 40%;
+margin-left: 19%;
+/* margin-right: auto; */
 margin-top: 10px;
 margin-bottom: 10px;
 position: fixed;
