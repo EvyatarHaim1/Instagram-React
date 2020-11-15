@@ -85,7 +85,6 @@ display: flex;
 flex-direction: column;
 width: 40%;
 margin-left: 19%;
-/* margin-right: auto; */
 margin-top: 10px;
 margin-bottom: 10px;
 position: fixed;

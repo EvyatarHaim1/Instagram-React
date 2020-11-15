@@ -5,7 +5,7 @@ import Post from './components/Post';
 import { makeStyles } from '@material-ui/core/styles';
 import {Modal, Button, Input} from '@material-ui/core';
 import { db, auth, storage} from './firebase';
-import InstagramEmbed from 'react-instagram-embed';
+import AppRightSection from './components/AppRightSection';
 import ImageUpload from './components/ImageUpload';
 import HeaderIcons from './components/HeaderIcons';
 
@@ -207,6 +207,7 @@ function App() {
       </Header>
 
       <div className="app_posts">
+        <div className="app_postLeft">
       {posts.map(({ id, post}) => (
         <Post key={id}
               username={post.username}
@@ -215,8 +216,18 @@ function App() {
               caption={post.caption}
               user={user}
               />
-      ))}
+        ))
+      }
+        </div>
+        <div className="app_postRight">
+        {user?.displayName ? (
+             <AppRightSection avatarImg={avatarImg} 
+                              username={user.displayName}
+                              email={user.email}
+             /> ) : ( null )}
+         </div>
       </div>
+      
             {user?.displayName ? (
                             <ImageUpload username={user.displayName}
                                          avatarImg={avatarImg}/>

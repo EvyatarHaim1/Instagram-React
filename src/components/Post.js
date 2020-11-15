@@ -30,7 +30,7 @@ max-width: 600px;
 border: 1px solid lightgray;
 background-color: white;
 margin-bottom: 60px;
-margin-left: 19%;
+/* margin-left: 19%; */
 .postImg {
     width: 100%; 
     object-fit: contain;

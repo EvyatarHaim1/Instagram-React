@@ -31,7 +31,7 @@ function HeaderIcons({ currentUserImg}) {
             <ExploreIcon />
             <FavoriteBorderIcon />
              <Avatar
-            className="post_avatar"
+            className={classes.avatar}
             alt={ currentUserImg }
             src={ currentUserImg }
             />
@@ -43,7 +43,8 @@ export default HeaderIcons;
 
 const Div = styled.div`
 display: flex;
-.MuiSvgIcon-root{ color: black; margin-left:20px; }`
+.MuiSvgIcon-root{ color: black; margin-left:20px; align-self: center; }
+`
 
 
 const useStyles = makeStyles((theme) => ({
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "200px",
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
+      marginLeft: theme.spacing(25),
       width: 'auto',
     },
   },
@@ -68,6 +69,17 @@ const useStyles = makeStyles((theme) => ({
     pointerEvents: 'none',
     display: 'flex',
   },
+  avatar: {
+    display: 'flex',
+    '& > *': {
+      margin: theme.spacing(2.5),
+    },
+  objectFit: "contain",
+  width: "25px",
+  height: "25px",
+  alignSelf: "center",
+  marginLeft: "20px"
+  }
 //   
 }));
 
