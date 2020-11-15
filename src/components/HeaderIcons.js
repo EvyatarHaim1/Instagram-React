@@ -21,9 +21,9 @@ function HeaderIcons({ currentUserImg}) {
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
-            <InputBase
-              placeholder="Search…"
+            <InputBase 
               inputProps={{ 'aria-label': 'search' }}
+              placeholder="Search…"
             />
           </div>
             <HomeIcon />
@@ -43,18 +43,18 @@ export default HeaderIcons;
 
 const Div = styled.div`
 display: flex;
-.MuiSvgIcon-root{ color: black;}`
+.MuiSvgIcon-root{ color: black; margin-left:20px; }`
 
 
 const useStyles = makeStyles((theme) => ({
   search: {
+    display: 'flex',
     position: 'relative',
     height: "25px",
-    textAlign: 'right',
+    textAlign: 'center',
     border: "1px solid lightgray",
     backgroundColor: "#fafafa",
-    marginRight: "280px",
-    marginLeft: "10px",
+    marginRight: "200px",
     width: '100%',
     [theme.breakpoints.up('sm')]: {
       marginLeft: theme.spacing(1),

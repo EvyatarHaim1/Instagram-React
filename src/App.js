@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import './App.css';
 import styled from 'styled-components';
 import Post from './components/Post';
 import { makeStyles } from '@material-ui/core/styles';
 import {Modal, Button, Input} from '@material-ui/core';
 import { db, auth, storage} from './firebase';
-import './App.css';
+import InstagramEmbed from 'react-instagram-embed';
 import ImageUpload from './components/ImageUpload';
 import HeaderIcons from './components/HeaderIcons';
 
@@ -205,6 +206,7 @@ function App() {
         )}
       </Header>
 
+      <div className="app_posts">
       {posts.map(({ id, post}) => (
         <Post key={id}
               username={post.username}
@@ -214,7 +216,7 @@ function App() {
               user={user}
               />
       ))}
-
+      </div>
             {user?.displayName ? (
                             <ImageUpload username={user.displayName}
                                          avatarImg={avatarImg}/>
@@ -233,15 +235,16 @@ const Header = styled.div`
 display: flex;
 justify-content: space-between;
 background-color: white;
-padding: 20px;
+padding: 10px;
 border-bottom: 1px solid lightgray;
 .headerImg{
   object-fit: contain;
-  margin-left: 18%;
+  margin-left: 18.5%;
 }
 .app_loginContainer , .app_logoutContainer{
   margin-right: 5%;
-}`
+}
+`
 
 
 
