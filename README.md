@@ -12,5 +12,8 @@ Instagram-React App:
 *Signin\Signup functionality
 * Uploading posts and reating comments.
 
+![alt text](https://github.com/EvyatarHaim1/Instagram-React/blob/main/src/screenview.png)
+
+
 
 
