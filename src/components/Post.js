@@ -73,8 +73,6 @@ function Post({ postId, avatarImg, postImg, username, caption, user }) {
                     onChange={(e) => setComment(e.target.value)}
                 />
                 <button
-                    // variant="contained" 
-                    // color="primary"
                     disabled={!comment}
                     className="post_button"
                     type="submit"

@@ -205,8 +205,8 @@ function App() {
                onClick={() => auth.signOut()}>Logout</Button>
         ) : ( 
         <div className="app_loginContainer">
-        <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
-        <Button onClick={() => setOpen(true)}>Sign Up</Button>
+            <Button onClick={() => setOpenSignIn(true)}>Sign In</Button>
+            <Button onClick={() => setOpen(true)}>Sign Up</Button>
         </div>
         )}
       </Header>
@@ -237,10 +237,8 @@ function App() {
             {user?.displayName ? (
                             <ImageUpload username={user.displayName}
                                          avatarImg={avatarImg}/>
-                          ) : (
-                            // <h3>Sorry you need to login to upload</h3>
-                            null
-                            )}
+                          ) : ( null )
+            }
       
     </div>
   );
